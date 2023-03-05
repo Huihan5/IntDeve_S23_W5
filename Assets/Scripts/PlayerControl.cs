@@ -45,6 +45,8 @@ public class PlayerControl : MonoBehaviour
 
     GameObject bubbleForRemove;
 
+    GameObject anotherBubbleForRemove;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -114,7 +116,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (bubbleForRemove != null)
             {
-                Destroy(bubbleForRemove);
+                bubbleForRemove.SetActive(false);
             }
 
             Speech1.SetActive(false);
@@ -133,19 +135,19 @@ public class PlayerControl : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                //Vector3 bubblePos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                Vector3 bubblePos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
                 mySource.PlayOneShot(speech);
-                //bubbleForRemove = Instantiate(speechBubble, bubblePos, Quaternion.identity);
+                anotherBubbleForRemove = Instantiate(speechBubble, bubblePos, Quaternion.identity);
                 Speech3.SetActive(true);
             }
         }
         else
         {
-            //if (bubbleForRemove != null)
-            //{
-                //Destroy(bubbleForRemove);
-            //}
+            if (anotherBubbleForRemove != null)
+            {
+                anotherBubbleForRemove.SetActive(false);
+            }
 
             Speech3.SetActive(false);
         }
