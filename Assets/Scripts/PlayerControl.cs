@@ -50,7 +50,8 @@ public class PlayerControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        myAnim = GetComponent<Animator>();
+        myRend = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -61,19 +62,34 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             newPos.x -= speed * Time.deltaTime;
+            myAnim.SetBool("Hori", true);
         }
         else if (Input.GetKey(KeyCode.D))
         {
             newPos.x += speed * Time.deltaTime;
+            myRend.flipX = true;
+            myAnim.SetBool("Hori", true);
+        }
+        else
+        {
+            myRend.flipX = false;
+            myAnim.SetBool("Hori", false);
         }
 
         if (Input.GetKey(KeyCode.W))
         {
             newPos.y += speed * Time.deltaTime;
+            myAnim.SetBool("Up", true);
         }
         else if (Input.GetKey(KeyCode.S))
         {
             newPos.y -= speed * Time.deltaTime;
+            myAnim.SetBool("Down", true);
+        }
+        else
+        {
+            myAnim.SetBool("Down", false);
+            myAnim.SetBool("Up", false);
         }
 
         transform.position = newPos;
@@ -159,20 +175,16 @@ public class PlayerControl : MonoBehaviour
 
         if (somecollision.gameObject.name == "obj_npcOutside")
         {
-
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.L))
             {
-
                 mySource.PlayOneShot(speech);
 
                 if (GetKey)
                 {
-
                     Speech2.SetActive(true);
                 }
                 else
                 {
-
                     Speech1.SetActive(true);
                 }
             }
@@ -193,7 +205,7 @@ public class PlayerControl : MonoBehaviour
 
         if(somecollision.gameObject.name == "obj_npcInside")
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.L))
             {
                 mySource.PlayOneShot(speech);
                 Speech3.SetActive(true);
