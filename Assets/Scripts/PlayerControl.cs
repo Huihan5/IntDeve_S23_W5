@@ -43,6 +43,8 @@ public class PlayerControl : MonoBehaviour
 
     public GameObject speechBubble;
 
+    GameObject bubbleForRemove;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -81,7 +83,7 @@ public class PlayerControl : MonoBehaviour
         distanceY = delta.y;
         distanceZ = delta.z;
 
-        Debug.Log(DistanceY);
+        //Debug.Log(DistanceY);
 
         if ((-distanceLimit <= distanceX && distanceX <= distanceLimit) && (-distanceLimit-0.2 <= distanceY && distanceY <= distanceLimit))
         {
@@ -89,29 +91,34 @@ public class PlayerControl : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Debug.Log("Ready Sir");
+                mySource.PlayOneShot(speech);
 
                 Vector3 bubblePos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
-                mySource.PlayOneShot(speech);
+                bubbleForRemove = Instantiate(speechBubble, bubblePos, Quaternion.identity);
+
+                //bubbleForRemove.SetActive(true);
 
                 if (GetKey)
                 {
-                    //GameObject bubbleForRemove = Instantiate(speechBubble, bubblePos, Quaternion.identity);
                     Speech2.SetActive(true);
                 }
                 else
                 {
-                    //Instantiate(speechBubble, bubblePos, Quaternion.identity);
                     Speech1.SetActive(true);
                 }
+
             }
         }
         else
         {
+            if (bubbleForRemove != null)
+            {
+                Destroy(bubbleForRemove);
+            }
+
             Speech1.SetActive(false);
             Speech2.SetActive(false);
-            //Destroy(bubbleForRemove);
         }
 
         //Second
@@ -126,12 +133,20 @@ public class PlayerControl : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                //Vector3 bubblePos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+
                 mySource.PlayOneShot(speech);
+                //bubbleForRemove = Instantiate(speechBubble, bubblePos, Quaternion.identity);
                 Speech3.SetActive(true);
             }
         }
         else
         {
+            //if (bubbleForRemove != null)
+            //{
+                //Destroy(bubbleForRemove);
+            //}
+
             Speech3.SetActive(false);
         }
     }
@@ -145,8 +160,6 @@ public class PlayerControl : MonoBehaviour
 
             if (Input.GetKey(KeyCode.Space))
             {
-
-                Debug.Log("Ready Sir");
 
                 mySource.PlayOneShot(speech);
 
