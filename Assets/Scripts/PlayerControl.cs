@@ -47,6 +47,8 @@ public class PlayerControl : MonoBehaviour
 
     GameObject anotherBubbleForRemove;
 
+    int bubbleNumber = 1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,7 +66,12 @@ public class PlayerControl : MonoBehaviour
             newPos.x -= speed * Time.deltaTime;
             myAnim.SetBool("Hori", true);
         }
-        else if (Input.GetKey(KeyCode.D))
+        else
+        {
+            myAnim.SetBool("Hori", false);
+        }
+
+        if (Input.GetKey(KeyCode.D))
         {
             newPos.x += speed * Time.deltaTime;
             myRend.flipX = true;
@@ -73,7 +80,6 @@ public class PlayerControl : MonoBehaviour
         else
         {
             myRend.flipX = false;
-            myAnim.SetBool("Hori", false);
         }
 
         if (Input.GetKey(KeyCode.W))
@@ -105,15 +111,20 @@ public class PlayerControl : MonoBehaviour
 
         if ((-distanceLimit <= distanceX && distanceX <= distanceLimit) && (-distanceLimit-0.2 <= distanceY && distanceY <= distanceLimit))
         {
-            Debug.Log("Detected");
+            Debug.Log(bubbleNumber);
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 mySource.PlayOneShot(speech);
 
-                Vector3 bubblePos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                if (bubbleNumber > 0)
+                {
+                    Vector3 bubblePos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
-                bubbleForRemove = Instantiate(speechBubble, bubblePos, Quaternion.identity);
+                    bubbleForRemove = Instantiate(speechBubble, bubblePos, Quaternion.identity);
+
+                    bubbleNumber--;
+                }
 
                 //bubbleForRemove.SetActive(true);
 
@@ -133,6 +144,11 @@ public class PlayerControl : MonoBehaviour
             if (bubbleForRemove != null)
             {
                 bubbleForRemove.SetActive(false);
+
+                if(bubbleNumber < 1)
+                {
+                    bubbleNumber++;
+                }
             }
 
             Speech1.SetActive(false);
